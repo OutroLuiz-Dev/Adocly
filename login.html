@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+
+  <!-- Importação correta do Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-auth-compat.js"></script>
+
+  <script>
+    // Configuração do Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyCvYT93c2tSFQ8iyvqprDpWVIMtHtuTgmA",
+      authDomain: "honorina-82a7c.firebaseapp.com",
+      databaseURL: "https://honorina-82a7c-default-rtdb.firebaseio.com",
+      projectId: "honorina-82a7c",
+      storageBucket: "honorina-82a7c.firebaseapp.com",
+      messagingSenderId: "282741363642",
+      appId: "1:282741363642:web:ba5308ed05481279f60383"
+    };
+
+    // Inicializando o Firebase
+    firebase.initializeApp(firebaseConfig);
+  </script>
+</head>
+<body>
+  <h1>Login</h1>
+  <form id="loginForm">
+    <label for="email">Email:</label>
+    <input type="email" id="email" autocomplete="email" required><br><br>
+    <label for="password">Senha:</label>
+    <input type="password" id="password" autocomplete="current-password" required><br><br>
+    <button type="submit">Login</button>
+  </form>
+  <p id="errorMessage" style="color: red;"></p>
+
+  <script>
+    const auth = firebase.auth();
+    const loginForm = document.getElementById('loginForm');
+    const errorMessage = document.getElementById('errorMessage');
+
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      try {
+        await auth.signInWithEmailAndPassword(email, password);
+        window.location.href = 'sobre.html';
+      } catch (error) {
+        console.error('Erro ao logar:', error);
+        switch (error.code) {
+          case 'auth/user-not-found':
+            errorMessage.textContent = 'Usuário não encontrado.';
+            break;
+          case 'auth/wrong-password':
+            errorMessage.textContent = 'Senha incorreta.';
+            break;
+          default:
+            errorMessage.textContent = `Erro: ${error.message}`;
+        }
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,52 +1,48 @@
-<!-- sobre.html -->
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página Sobre</title>
-    <style>
-        /* Estilo básico para o modal */
-        #emailModal {
-            display: none; /* Inicialmente escondido */
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
-            justify-content: center;
-            align-items: center;
-        }
-        #modalContent {
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            width: 300px;
-            text-align: center;
-        }
-        #closeBtn {
-            cursor: pointer;
-            background-color: red;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sobre</title>
+
+  <!-- Importação do Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-auth-compat.js"></script>
+  
+
+  <script>
+    // Configuração Firebase igual ao login.html
+    const firebaseConfig = {
+      apiKey: "AIzaSyCvYT93c2tSFQ8iyvqprDpWVIMtHtuTgmA",
+      authDomain: "honorina-82a7c.firebaseapp.com",
+      databaseURL: "https://honorina-82a7c-default-rtdb.firebaseio.com",
+      projectId: "honorina-82a7c",
+      storageBucket: "honorina-82a7c.firebaseapp.com",
+      messagingSenderId: "282741363642",
+      appId: "1:282741363642:web:ba5308ed05481279f60383"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+  </script>
 </head>
 <body>
-    <h1>Página Sobre</h1>
+  <h1>Bem-vindo!</h1>
+  <p id="welcomeMessage"></p>
+  <button id="showWelcome">Mostrar Boas-vindas</button>
 
-    <!-- Modal -->
-    <div id="emailModal">
-        <div id="modalContent">
-            <h2>Email Recebido:</h2>
-            <p id="emailText"></p>
-            <button id="closeBtn">Fechar</button>
-        </div>
-    </div>
+  <script>
+    const auth = firebase.auth();
+    document.getElementById('showWelcome').addEventListener('click', () => {
+      const user = auth.currentUser;
 
-    <script src="sobre.js"></script>
+      if (user) {
+        document.getElementById('welcomeMessage').textContent = 
+          `Bem-vindo, ${user.email}! Estamos felizes em tê-lo conosco.`;
+      } else {
+        document.getElementById('welcomeMessage').textContent = 
+          'Erro: Nenhum usuário logado.';
+      }
+    });
+  </script>
 </body>
 </html>
